@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./apps.nix
     ];
 
   # Bootloader.
@@ -40,6 +41,14 @@
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
+
+  
+  programs.hyprland = {
+    enable = true;
+    withUWSM = true; # recommended for most users
+    xwayland.enable = true; # Xwayland can be disabled.
+  };
+  
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -80,29 +89,6 @@
     ];
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-
-
-  
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
-  pkgs.python315
-  pkgs.python313Packages.pip
-  pkgs.konsave
-  pkgs.vscode
-  pkgs.jdk25_headless
-  pkgs.maven
-  pkgs.git
-  pkgs.fastfetch
-  pkgs.hyfetch
-
-  ];
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -122,9 +108,7 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  programs.fish.enable = true;
-
-  nixpkgs.config.allowUnfree = true;
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -134,4 +118,13 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "25.11"; # Did you read the comment?
 
+  nix = {
+    settings.auto-optimise-store = true;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+      persistent = true;
+    };
+  };
 }
