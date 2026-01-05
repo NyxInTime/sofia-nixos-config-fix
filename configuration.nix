@@ -2,13 +2,17 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
+let
+  home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/master.tar.gz;
+in
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./apps.nix
+      (import "${home-manager}/nixos")
     ];
 
   # Bootloader.
@@ -84,9 +88,22 @@
     description = "Sofia Louro";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      kdePackages.kate
-    #  thunderbird
+      
     ];
+  };
+  
+  #also why these not work
+  #home.username = "Sofia";
+  #home.homeDirectory = "/home/sofia";
+
+  #why this not work?
+  #programs.home-manager.enable = true; 
+
+  home-manager.users.sofia = {
+    home.packages = with pkgs; [
+      kdePackages.kate
+    ];
+    home.stateVersion = "25.11";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
