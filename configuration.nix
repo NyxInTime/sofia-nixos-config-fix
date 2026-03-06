@@ -3,17 +3,17 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, lib, ... }:
-
-let
-  home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/master.tar.gz;
-in
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./apps.nix
-      (import "${home-manager}/nixos")
-    ];
+#let
+#  home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/master.tar.gz;
+#in
+#{
+#  imports =
+#    [ # Include the results of the hardware scan.
+#      ./hardware-configuration.nix
+#      ./apps.nix
+#      (import "${home-manager}/nixos")
+#    ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -99,12 +99,12 @@ in
   #why this not work?
   #programs.home-manager.enable = true; 
 
-  home-manager.users.sofia = {
-    home.packages = with pkgs; [
-      kdePackages.kate
-    ];
-    home.stateVersion = "25.11";
-  };
+#  home-manager.users.sofia = {
+#    home.packages = with pkgs; [
+#      kdePackages.kate
+#    ];
+#    home.stateVersion = "25.11";
+#  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
