@@ -8,12 +8,12 @@
 #  home-manager = builtins.fetchTarball https://github.com/nix-community/home-manager/archive/master.tar.gz;
 #in
 #{
-#  imports =
-#    [ # Include the results of the hardware scan.
-#      ./hardware-configuration.nix
+  imports =
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
 #      ./apps.nix
 #      (import "${home-manager}/nixos")
-#    ];
+    ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
